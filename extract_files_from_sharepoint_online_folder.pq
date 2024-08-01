@@ -1,5 +1,5 @@
 // 01 - FileFullPath_PasteHere
-"https://ceslpca.sharepoint.com/sites/Corp-Finance-FPA/Shared%20Documents/General/Top%2020%20Customers/2024/AES%20DF/AES%20Top%2020%20Customers%20May%202024%20Final.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+"https://ceslpca.sharepoint.com/sites/XXX/Shared%20Documents/General/XXXXX/File_Final.xlsx" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 
 // 02 - RootFullPath
 let
