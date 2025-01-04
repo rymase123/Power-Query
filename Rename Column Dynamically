@@ -1,0 +1,1 @@
+ Table.RenameColumns(PREVIOUS STEP,{{Table.ColumnNames(PREVIOUS STEP){0}, "New Name"}}) 
