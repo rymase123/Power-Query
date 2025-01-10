@@ -1,0 +1,43 @@
+Query 1: UTC_to_MST
+Query 2: Refresh Date
+
+
+UTC_to_MST
+
+(datetimecolumn as datetime) =>
+
+let
+
+date = DateTime.Date(datetimecolumn),
+time = DateTime.Time(datetimecolumn),
+firstSundayOfNovember = Date.StartOfWeek(#date(Date.Year(date), 11, 7), Day.Sunday),
+SecondSundayOfMarch = Date.StartOfWeek(#date(Date.Year(date), 3, 14), Day.Sunday),
+
+isSummerTime =	(date = SecondSundayOfMarch and time >= #time(1,0,0))
+	        or
+		(date > SecondSundayOfMarch and date < firstSundayOfNovember) 
+		or 
+		(date = firstSundayOfNovember and time >= #time(1,0,0)),
+
+
+timeZone = (7 - Number.From(isSummerTime))*-1,
+
+MDT = 
+            DateTime.From(date) 
+            + #duration(0,Time.Hour(time),Time.Minute(time),Time.Second(time))  
+            + #duration(0, timeZone, 0, 0)
+
+in
+    MDT
+
+------------------------------------------
+
+Refresh Date
+
+let
+
+Source = #table(type table[Date Last Refreshed=datetime], {{DateTime.LocalNow()}}),
+    #"Invoked Custom Function" = Table.AddColumn(Source, "Date Last Refreshed (MT)", each UTC_to_MST([Date Last Refreshed])),
+    #"Changed Type" = Table.TransformColumnTypes(#"Invoked Custom Function",{{"Date Last Refreshed (MT)", type datetime}})
+in
+    #"Changed Type"
